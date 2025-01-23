@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model users {
+  id       Int     @id @default(autoincrement())
+  name     String
+  email    String  @unique
+  password String
+  role     role    @default(USER)
+  books    books[]
+
+  @@map("users")
+}
+
+model categories {
+  id    Int     @id @default(autoincrement())
+  name  String  @unique
+  books books[]
+
+  @@map("categories")
+}
+
+model books {
+  id             Int        @id @default(autoincrement())
+  title          String
+  description    String?    @db.VarChar(1024)
+  author         String
+  published_year Int
+  category_id    Int
+  user_id        Int
+  categories     categories @relation(fields: [category_id], references: [id])
+  users          users      @relation(fields: [user_id], references: [id])
+
+  @@index([category_id], map: "books_category_id_fkey")
+  @@index([user_id], map: "books_user_id_fkey")
+  @@map("books")
+}
+
+enum role {
+  ADMIN
+  USER
+}

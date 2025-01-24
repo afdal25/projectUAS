@@ -98,7 +98,7 @@ const deleteCategory = async (req, res) => {
     }
 
     // Hapus kategori
-    await prisma.category.delete({ where: { id: parseInt(id) } });
+    await prisma.categories.delete({ where: { id: parseInt(id) } });
 
     res.json({
       message: 'Kategori berhasil dihapus.',

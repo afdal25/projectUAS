@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 // Tambahkan Buku Baru
 const addBook = async (req, res) => {
   try {
-    const { title, description, author, published_year, category_id } = req.body;
+    const { title, description, published_year, category_id, author } = req.body;
     const user_id = req.user.id; // Dari JWT Middleware
 
     const newBook = await prisma.books.create({
